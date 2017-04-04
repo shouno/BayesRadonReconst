@@ -1,14 +1,13 @@
 source( 'MyRadon.R' )
-source( 'MyGaussImage.R' )
-library( adimpro )
+
 library( PET )
-library( biOps )
+library( gplots )
 
 Rmax <- 1
 Rmin <- -1
 
-Lx <- 256
-Ly <- 256
+Lx <- 64
+Ly <- 64
 dx <- (Rmax-Rmin)/Lx
 dy <- (Rmax-Rmin)/Ly
 
@@ -18,7 +17,7 @@ Slen <- Rmax-Rmin
 ds <- Slen/Ns
 dth <- pi / Nth
 
-P1 <- phantom()
+P1 <- phantom(n=Ly)
 P1 <- P1[1:Ly,1:Lx]
 
 #
@@ -26,9 +25,9 @@ P1 <- P1[1:Ly,1:Lx]
 #
 # P1 <- P1 * .5
 
-tauTrue    <- RadonT( Nth, Ns, P1, pflg=0, periodic=TRUE )
-tauNormal  <- RadonT( Nth, Ns, P1, pflg=1, psd=1.0, periodic=TRUE )
-tauPoisson <- RadonT( Nth, Ns, P1, pflg=2, periodic=TRUE )
+tauTrue    <- RadonT( Nth, Ns, P1, pflg=0 )
+tauNormal  <- RadonT( Nth, Ns, P1, pflg=1, psd=1.0 )
+tauPoisson <- RadonT( Nth, Ns, P1, pflg=2 )
 
 TtauTrue    <- t( mvfft( t( tauTrue ) ) )
 TtauNormal  <- t( mvfft( t( tauNormal ) ) ) 
@@ -47,9 +46,12 @@ recImageTrue    <- FBPT( Ly, Lx, gTrue )
 recImageNormal  <- FBPT( Ly, Lx, gNormal )
 recImagePoisson <- FBPT( Ly, Lx, gPoisson )
 
-save( tauTrue, tauNormal, tauPoisson,
-     TtauTrue, TtauNormal, TtauPoisson,
-     gTrue, gNormal, gPoisson,
-     recImageTrue, recImageNormal, recImagePoisson, file="P1ReconstPeriodic.Rdata" )
+par(mfrow=c(1,3))
+image( t(recImageTrue)[,Ly:1], col=rich.colors(120), axes=FALSE )
+title( main="True Image" )
+image( t(recImageNormal)[,Ly:1], col=rich.colors(120), axes=FALSE )
+title( main="AWGN sd=1.0" )
+image( t(recImagePoisson)[,Ly:1], col=rich.colors(120), axes=FALSE )
+title( main="Poisson" )
 
-colmap <- gray(0:255/256)
+par(mfrow=c(1,1))
