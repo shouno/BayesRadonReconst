@@ -4,7 +4,7 @@ RadonT <- function( Nth, Ns, inimg,
                    left = -1.0, right = 1.0,
                    top = 1.0, bottom = -1.0,
                    pflg = 0, psd = 1.0,
-                   nh = 4096,
+                   nh = 1024,
                    periodic = FALSE
                    )
 {
