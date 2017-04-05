@@ -83,7 +83,7 @@ ShowReconst <- function( obs, L=64 ){
     BayesReconst <- FBPT( Ly, Lx, gBayes )
 
 
-    par( mfrow=c(1,3) )
+    par( mfrow=c(2,3) )
     image( t(FBPReconst)[,Ly:1], col=rich.colors(120), axes=FALSE )
     title( main='FBP Reconst' )
 
@@ -93,6 +93,18 @@ ShowReconst <- function( obs, L=64 ){
     image( t(BayesReconst)[,Ly:1], col=rich.colors(120), axes=FALSE )
     title( main='Bayes filtered Reconst' )
 
+    yrng <- c(0,max(skabs))
+    plot( FBPfilt[1:Ns/2], ylim=yrng, type='l', col='red', lwd=3 )
+    title( 'FBP filter in freq. domain' )
+
+    plot( HANfilt[1:Ns/2], ylim=yrng, type='l', col='red', lwd=3 )
+    lines(skabs[1:Ns/2], lty='dotted')
+    title( 'HAN filter in freq. domain' )
+
+    plot( Bayesfilt[1:Ns/2], ylim=yrng, type='l', col='red', lwd=3 )
+    lines(skabs[1:Ns/2], lty='dotted')
+    title( 'Bayes filter in freq. domain' )
+    
     par( mfrow=c(1,1) )
 
     return( list( FBPReconst=FBPReconst, HANReconst=HANReconst, BayesReconst=BayesReconst ) )
@@ -100,4 +112,4 @@ ShowReconst <- function( obs, L=64 ){
 
 
 load( 'P1Radon.Rdata' )
-ShowReconst( tauNormal )
+ans <- ShowReconst( tauNormal )

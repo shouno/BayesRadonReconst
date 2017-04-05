@@ -19,3 +19,5 @@ R によって記述子ているが，Radon 変換のシミュレータと
    HAN窓をフィルタとした FBP
    MRF を事前分布とし，ハイパーパラメータ推定まで行ったフィルタで再構成させた Bayes FBP の画像が描画される
    
+
+<img width="1434" alt="recdemo" src="https://cloud.githubusercontent.com/assets/5178986/24691284/8bb4c31e-1a0d-11e7-9a55-8828a77f37f5.png">
